@@ -9,11 +9,11 @@
 
 | Nome completo | RM |
 |---|---|
-| Nicolas _(sobrenome)_ | _RM_ |
-| Larissa _(sobrenome)_ | _RM_ |
+| Nicolas Santos Assunção | 575154 |
+| Larissa Fernandes | 574592 |
 
 **Vídeo técnico (YouTube, não listado):** _colar o link aqui_
-**Dashboard online (GitHub Pages):** _colar o link aqui_ (ver [Como abrir o dashboard](#8-como-abrir-o-dashboard))
+**Dashboard online (GitHub Pages):** https://nicolasassuncaoo.github.io/gs-2026-2-sers-ubs-energia/dashboard/
 
 ---
 
@@ -185,7 +185,7 @@ Para testar outro cenário, edite `dados/premissas.json` ou `dados/equipamentos.
 ## 8. Como abrir o dashboard
 
 - **No computador:** abra `dashboard/index.html` no navegador (duplo clique).
-- **Online (GitHub Pages):** em *Settings → Pages*, escolha *Deploy from a branch*, branch `main`, pasta `/ (root)`. O endereço será `https://<usuario>.github.io/<repositorio>/dashboard/`.
+- **Online (GitHub Pages):** em *Settings → Pages*, escolha *Deploy from a branch*, branch `main`, pasta `/ (root)`. Endereço deste projeto: https://nicolasassuncaoo.github.io/gs-2026-2-sers-ubs-energia/dashboard/
 
 ## 9. Estrutura do repositório
 
