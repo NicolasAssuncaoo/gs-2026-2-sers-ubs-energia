@@ -12,7 +12,7 @@
 | Nicolas Santos Assunção | 575154 |
 | Larissa Fernandes | 574592 |
 
-**Vídeo técnico (YouTube, não listado):** _colar o link aqui_
+**Vídeo técnico (YouTube, não listado):** https://youtu.be/gXIfHrMkogs
 **Dashboard online (GitHub Pages):** https://nicolasassuncaoo.github.io/gs-2026-2-sers-ubs-energia/dashboard/
 
 ---
