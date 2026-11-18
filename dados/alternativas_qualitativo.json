@@ -1,0 +1,20 @@
+{
+  "a1": {
+    "viabilidade": "Alta. Troca direta de lâmpadas (sem obra), sensores de parede e substituição dos splits por etapas, sala a sala, sem fechar a UBS. Exige circuito elétrico compatível para os novos splits.",
+    "impacto_ambiental": "Reduz a energia consumida e as emissões indiretas. As lâmpadas fluorescentes retiradas contêm mercúrio e precisam de descarte por logística reversa. Os splits antigos exigem recolhimento do gás refrigerante.",
+    "beneficios": "Menor investimento e retorno mais rápido. Mais conforto térmico e luz de melhor qualidade nos consultórios. Reduz a carga elétrica, o que facilita a etapa solar.",
+    "limitacoes": "Não gera energia: a UBS continua 100% dependente da rede. A economia depende do uso correto e da manutenção dos sensores."
+  },
+  "a2": {
+    "viabilidade": "Média. Precisa de cerca de 150 m² de telhado voltado ao norte, sem sombra, com laudo de estrutura e homologação na distribuidora (microgeração até 75 kW).",
+    "impacto_ambiental": "Gera energia renovável no próprio prédio, sem emissões na operação. Os módulos têm vida útil de 25 anos ou mais e exigem reciclagem no fim de vida. Há impacto na fabricação (mineração e transporte).",
+    "beneficios": "Maior participação renovável na alternativa isolada. Visibilidade educativa para a comunidade. Proteção parcial contra reajustes tarifários.",
+    "limitacoes": "Investimento maior. Dimensiona o sistema para um consumo com desperdício. Parte da energia é injetada na rede e vale menos por causa do Fio B (Lei 14.300). Sem bateria, não funciona em queda de energia."
+  },
+  "a3": {
+    "viabilidade": "Alta, em duas fases: eficiência primeiro (meses 1 e 2) e depois o sistema solar dimensionado para o consumo já reduzido (cerca de 94 m² de telhado).",
+    "impacto_ambiental": "Menores emissões entre as alternativas. Combina menor consumo com geração renovável. Mesmos cuidados de descarte da A1 e de reciclagem dos módulos da A2.",
+    "beneficios": "Menor conta mensal e maior saldo em 25 anos. Usa um sistema solar 37% menor que o da A2 com investimento quase igual. O monitoramento protege a rede de frio das vacinas.",
+    "limitacoes": "Exige coordenação de duas contratações. O resultado real depende da operação. Sem bateria, a rede de frio continua dependendo do nobreak em caso de queda de energia."
+  }
+}

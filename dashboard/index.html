@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neighborhood Action Dashboard — Energia da UBS (SERS)</title>
+<style>
+  :root {
+    --navy:#0f2a44; --ink:#1f2d3d; --muted:#5b6b7f; --line:#dbe5ef; --bg:#f3f7fb; --card:#ffffff;
+    --energy:#e8590c; --solar:#f59f00; --grid:#1c7ed6; --green:#2b8a3e; --red:#e03131;
+    --a0:#868e96; --a1:#1c7ed6; --a2:#f59f00; --a3:#2b8a3e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--navy); color:#fff; padding:22px 32px 18px; }
+  header .tag { display:inline-block; font-size:12px; font-weight:700; letter-spacing:.08em; background:rgba(255,255,255,.14);
+                padding:5px 12px; border-radius:999px; }
+  header h1 { margin:10px 0 4px; font-size:28px; }
+  header p { margin:0; color:#c7d6e6; font-size:15px; }
+  nav { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line); padding:0 24px;
+        display:flex; gap:4px; overflow-x:auto; }
+  nav a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:600; padding:13px 12px; white-space:nowrap;
+          border-bottom:3px solid transparent; }
+  nav a:hover { color:var(--navy); border-color:var(--line); }
+  main { max-width:1240px; margin:0 auto; padding:24px 24px 60px; }
+  section { margin-bottom:28px; }
+  h2 { font-size:20px; margin:0 0 4px; color:var(--navy); }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:900px) { .grid2 { grid-template-columns:1fr; } }
+  .seg { display:inline-flex; background:#fff; border:1px solid var(--line); border-radius:10px; padding:4px; gap:4px; flex-wrap:wrap; }
+  .seg button { border:0; background:transparent; padding:9px 14px; border-radius:7px; font:inherit; font-size:14px;
+                font-weight:600; color:var(--muted); cursor:pointer; }
+  .seg button.on { background:var(--navy); color:#fff; }
+  .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-top:16px; }
+  @media (max-width:1100px) { .kpis { grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
+  .kpi { background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .kpi .rot { font-size:12.5px; color:var(--muted); font-weight:600; }
+  .kpi .val { font-size:26px; font-weight:800; color:var(--navy); margin:6px 0 2px; font-variant-numeric:tabular-nums; }
+  .kpi .val small { font-size:14px; font-weight:600; color:var(--muted); }
+  .kpi .det { font-size:12.5px; color:var(--muted); }
+  .kpi .det b { color:var(--green); }
+  .aviso { margin-top:14px; font-size:13px; color:#7a5300; background:#fff8e1; border:1px solid #ffe08a; padding:10px 14px; border-radius:10px; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th, td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:700; font-size:12.5px; background:#f8fafc; }
+  td.n, th.n { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.rec td { background:#ebfbee; }
+  .leg { display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin:6px 0 4px; }
+  .leg i { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+  svg text { font-family:inherit; }
+  .chart { width:100%; }
+  .alerta { display:flex; gap:12px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; margin-bottom:10px; background:#fff; }
+  .alerta .ico { flex:0 0 34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+                 color:#fff; font-weight:800; }
+  .alerta b { display:block; font-size:14px; }
+  .alerta span { font-size:13px; color:var(--muted); }
+  .diag img { width:100%; height:auto; border:1px solid var(--line); border-radius:12px; background:#fff; }
+  .pill { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:700; color:#fff; }
+  footer { text-align:center; color:var(--muted); font-size:13px; padding:20px; }
+</style>
+</head>
+<body>
+<header>
+  <span class="tag">GLOBAL SOLUTION 2026.2 · CITIZENTECH · CONTRIBUIÇÃO SERS</span>
+  <h1>Neighborhood Action Dashboard — Energia da UBS</h1>
+  <p>UBS de porte médio em São Paulo (SP): consumo, alternativas de melhoria energética com fonte renovável e monitoramento.</p>
+</header>
+<nav>
+  <a href="#visao">Visão geral</a><a href="#consumo">Consumo</a><a href="#alternativas">Alternativas</a>
+  <a href="#mensal">Mês a mês</a><a href="#monitoramento">Monitoramento</a><a href="#retorno">Retorno</a>
+  <a href="#diagrama">Diagrama</a><a href="#premissas">Premissas e fontes</a>
+</nav>
+<main>
+  <section id="visao">
+    <h2>Indicadores de eficiência e sustentabilidade</h2>
+    <p class="sub">Escolha a alternativa. Todos os números vêm de <code>src/gerar_dados.py</code> e mudam se as premissas mudarem.</p>
+    <div class="seg" id="seletor"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="aviso">Valores são <b>projeções</b> baseadas em estimativas e premissas justificadas (aba “Premissas e fontes”), não resultados garantidos. O monitoramento usa dados <b>simulados</b>.</div>
+  </section>
+
+  <section id="consumo" class="card">
+    <h2>Consumo por equipamento (kWh/mês)</h2>
+    <p class="sub">E = (P × t) / 1000 × quantidade × dias. Situação atual comparada aos mesmos equipamentos depois das medidas de eficiência.</p>
+    <div class="leg"><span><i style="background:var(--a0)"></i>Atual</span><span><i style="background:var(--a1)"></i>Com eficiência (A1/A3)</span></div>
+    <div id="g_equip"></div>
+  </section>
+
+  <section id="alternativas">
+    <div class="card">
+      <h2>Comparação das alternativas — mesma necessidade, mês médio de um ano</h2>
+      <p class="sub">A UBS precisa da mesma energia útil nas quatro situações. Coluna verde: alternativa recomendada.</p>
+      <div style="overflow-x:auto"><table id="t_comp"></table></div>
+    </div>
+    <div class="grid2" style="margin-top:18px">
+      <div class="card"><h2>Energia líquida da rede (kWh/mês)</h2><p class="sub">Consumo menos geração solar (compensada).</p><div id="g_rede"></div></div>
+      <div class="card"><h2>Conta de energia (R$/mês)</h2><p class="sub">Inclui Fio B não compensado e o mínimo de 100 kWh.</p><div id="g_custo"></div></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h2>Viabilidade, impactos ambientais, benefícios e limitações</h2>
+      <div style="overflow-x:auto"><table id="t_quali"></table></div>
+    </div>
+  </section>
+
+  <section id="mensal" class="card">
+    <h2>Mês a mês: consumo × geração solar (<span id="mensal_nome"></span>)</h2>
+    <p class="sub">Climatização varia com a estação; geração segue a irradiação média de cada mês.</p>
+    <div class="leg"><span><i style="background:var(--navy)"></i>Consumo da UBS</span><span><i style="background:var(--solar)"></i>Geração solar</span></div>
+    <div id="g_mensal"></div>
+  </section>
+
+  <section id="monitoramento">
+    <div class="card">
+      <h2>Monitoramento — semana simulada (<span id="mon_mes"></span>, alternativa A3)</h2>
+      <p class="sub">Leituras horárias simuladas com três falhas inseridas para testar a lógica de alertas.</p>
+      <div class="kpis" id="kpis_mon" style="grid-template-columns:repeat(4,1fr);margin:0 0 14px"></div>
+      <div class="leg"><span><i style="background:var(--navy)"></i>Consumo (kW)</span><span><i style="background:var(--solar)"></i>Geração solar (kW)</span><span><i style="background:#ffc9c9"></i>Período com alerta</span></div>
+      <div id="g_semana"></div>
+    </div>
+    <div class="grid2" style="margin-top:18px">
+      <div class="card"><h2>Rede de frio — temperatura das vacinas (°C)</h2><p class="sub">Faixa segura de 2 a 8 °C (área verde).</p><div id="g_temp"></div></div>
+      <div class="card"><h2>Ocorrências detectadas</h2><p class="sub">Geradas pelas regras do bloco “Lógica de monitoramento”.</p><div id="alertas"></div></div>
+    </div>
+  </section>
+
+  <section id="retorno" class="grid2">
+    <div class="card"><h2>Saldo acumulado em 25 anos (R$)</h2><p class="sub">Sem reajuste de tarifa (conservador), com degradação dos módulos, O&amp;M e troca do inversor no ano 12.</p>
+      <div class="leg"><span><i style="background:var(--a1)"></i>A1</span><span><i style="background:var(--a2)"></i>A2</span><span><i style="background:var(--a3)"></i>A3</span></div>
+      <div id="g_fluxo"></div></div>
+    <div class="card"><h2>Sensibilidade do retorno simples (anos)</h2><p class="sub">O que acontece se uma premissa estiver errada.</p><table id="t_sens"></table>
+      <h2 style="margin-top:18px">Medidas de eficiência (A1)</h2><table id="t_medidas"></table></div>
+  </section>
+
+  <section id="diagrama" class="card diag">
+    <h2>Diagrama de funcionamento da solução</h2>
+    <p class="sub">Fonte de energia → consumidores → sensores → lógica de automação → processamento → indicadores deste dashboard.</p>
+    <img src="diagrama_solucao.svg" alt="Diagrama de blocos da solução: fontes de energia (solar e rede), quadro e medição, equipamentos, sensores, lógica de automação, processamento e indicadores">
+  </section>
+
+  <section id="premissas" class="card">
+    <h2>Premissas e fontes</h2>
+    <p class="sub">Arquivo <code>dados/premissas.json</code>. Equipamentos e horários em <code>dados/equipamentos.csv</code>; irradiação em <code>dados/clima_mensal.csv</code>.</p>
+    <div style="overflow-x:auto"><table id="t_prem"></table></div>
+  </section>
+</main>
+<footer>Neighborhood Action Dashboard · Contribuição de Soluções em Energias Renováveis e Sustentáveis (SERS) · Global Solution 2026.2</footer>
+
+<script src="dados_energia.js"></script>
+<script>
+const D = window.DADOS_SERS;
+const A = Object.fromEntries(D.alternativas.map(a => [a.chave, a]));
+const COR = { atual:'#868e96', a1:'#1c7ed6', a2:'#f59f00', a3:'#2b8a3e' };
+const CURTO = { atual:'Atual', a1:'A1 Eficiência', a2:'A2 Solar', a3:'A3 Eficiência + solar' };
+const NS = 'http://www.w3.org/2000/svg';
+let sel = 'a3';
+
+function br(v, c = 0) {
+  if (v === null || v === undefined || Number.isNaN(v)) return '—';
+  return Number(v).toLocaleString('pt-BR', { minimumFractionDigits: c, maximumFractionDigits: c });
+}
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, attrs = {}) {
+  const t = el('text', { x, y, 'font-size': 12, fill: '#5b6b7f', ...attrs }, parent);
+  t.textContent = s; return t;
+}
+function svg(id, w, h) {
+  const box = document.getElementById(id); box.innerHTML = '';
+  return el('svg', { viewBox: `0 0 ${w} ${h}`, class: 'chart', role: 'img' }, box);
+}
+function escala(max) {
+  const p = Math.pow(10, Math.floor(Math.log10((max || 1) / 5)));
+  const n = [1, 2, 2.5, 5, 10].find(m => m * p * 5 >= max) * p;
+  return { passo: n, topo: n * Math.ceil(max / n) };
+}
+function eixoY(g, x0, y0, w, h, topo, passo, fmt = v => br(v)) {
+  for (let v = 0; v <= topo + 1e-9; v += passo) {
+    const y = y0 + h - (v / topo) * h;
+    el('line', { x1: x0, x2: x0 + w, y1: y, y2: y, stroke: '#e9eef5' }, g);
+    txt(g, x0 - 8, y + 4, fmt(v), { 'text-anchor': 'end' });
+  }
+}
+
+/* --- barras verticais simples --- */
+function barras(id, itens, fmt, unidade) {
+  const W = 560, H = 270, x0 = 64, y0 = 16, w = W - x0 - 10, h = H - y0 - 44;
+  const s = svg(id, W, H), { passo, topo } = escala(Math.max(...itens.map(i => i.v)));
+  eixoY(s, x0, y0, w, h, topo, passo);
+  const bw = w / itens.length;
+  itens.forEach((it, i) => {
+    const bh = (it.v / topo) * h, x = x0 + i * bw + bw * 0.18;
+    const r = el('rect', { x, y: y0 + h - bh, width: bw * 0.64, height: bh, rx: 6, fill: it.cor }, s);
+    el('title', {}, r).textContent = `${it.rot}: ${fmt(it.v)} ${unidade}`;
+    txt(s, x + bw * 0.32, y0 + h - bh - 6, fmt(it.v), { 'text-anchor': 'middle', fill: '#1f2d3d', 'font-weight': 700 });
+    txt(s, x + bw * 0.32, y0 + h + 18, it.rot, { 'text-anchor': 'middle', 'font-weight': it.chave === sel ? 800 : 500,
+         fill: it.chave === sel ? '#0f2a44' : '#5b6b7f' });
+  });
+}
+
+/* --- barras horizontais agrupadas (equipamentos) --- */
+function barrasH(id, linhas) {
+  const W = 1180, lh = 40, H = linhas.length * lh + 40, x0 = 330, w = W - x0 - 80;
+  const s = svg(id, W, H), { passo, topo } = escala(Math.max(...linhas.map(l => l.a)));
+  for (let v = 0; v <= topo + 1e-9; v += passo) {
+    const x = x0 + (v / topo) * w;
+    el('line', { x1: x, x2: x, y1: 8, y2: H - 26, stroke: '#e9eef5' }, s);
+    txt(s, x, H - 8, br(v), { 'text-anchor': 'middle' });
+  }
+  linhas.forEach((l, i) => {
+    const y = 10 + i * lh;
+    txt(s, x0 - 12, y + 20, l.rot, { 'text-anchor': 'end', fill: '#1f2d3d', 'font-size': 13 });
+    const wa = (l.a / topo) * w, wb = (l.b / topo) * w;
+    el('rect', { x: x0, y: y + 3, width: wa, height: 14, rx: 3, fill: '#868e96' }, s);
+    el('rect', { x: x0, y: y + 19, width: wb, height: 14, rx: 3, fill: '#1c7ed6' }, s);
+    txt(s, x0 + wa + 6, y + 14, br(l.a, 1), { fill: '#1f2d3d' });
+    const red = l.a > 0 ? (1 - l.b / l.a) * 100 : 0;
+    txt(s, x0 + wb + 6, y + 30, br(l.b, 1) + (red > 0.5 ? `  (−${br(red)}%)` : ''), { fill: red > 0.5 ? '#2b8a3e' : '#1f2d3d', 'font-weight': red > 0.5 ? 700 : 400 });
+  });
+}
+
+/* --- gráfico de linhas / barras mensais --- */
+function linhas(id, rotulos, series, opt = {}) {
+  const W = opt.W || 1180, H = opt.H || 300, x0 = opt.x0 || 58, y0 = 14, w = W - x0 - 16, h = H - y0 - 40;
+  const s = svg(id, W, H);
+  const maxV = opt.max || Math.max(...series.flatMap(se => se.v));
+  const minV = opt.min || 0;
+  const { passo, topo } = opt.max ? { passo: opt.passo, topo: opt.max } : escala(maxV);
+  const Y = v => y0 + h - ((v - minV) / (topo - minV)) * h;
+  if (opt.faixa) el('rect', { x: x0, y: Y(opt.faixa[1]), width: w, height: Y(opt.faixa[0]) - Y(opt.faixa[1]), fill: '#d3f9d8' }, s);
+  (opt.destaques || []).forEach(([i0, i1]) => {
+    const px = i => x0 + (i / (rotulos.length - 1)) * w;
+    el('rect', { x: px(i0) - 3, y: y0, width: px(i1) - px(i0) + 6, height: h, fill: '#ffc9c9', opacity: .7 }, s);
+  });
+  for (let v = minV; v <= topo + 1e-9; v += passo) {
+    el('line', { x1: x0, x2: x0 + w, y1: Y(v), y2: Y(v), stroke: '#e9eef5' }, s);
+    txt(s, x0 - 8, Y(v) + 4, opt.fmtY ? opt.fmtY(v) : br(v, opt.casas || 0), { 'text-anchor': 'end' });
+  }
+  const passoX = opt.marcasX || 1;
+  rotulos.forEach((r, i) => {
+    if (i % passoX) return;
+    const x = x0 + (opt.barras ? (i + .5) / rotulos.length : i / (rotulos.length - 1)) * w;
+    txt(s, x, H - 14, r, { 'text-anchor': opt.barras ? 'middle' : (i === rotulos.length - 1 ? 'end' : 'start') });
+    if (!opt.barras && passoX > 1) el('line', { x1: x, x2: x, y1: y0, y2: y0 + h, stroke: '#d5dde7', 'stroke-dasharray': '3 3' }, s);
+  });
+  series.forEach((se, k) => {
+    if (opt.barras) {
+      const bw = w / rotulos.length, n = series.length;
+      se.v.forEach((v, i) => {
+        const x = x0 + i * bw + bw * .14 + k * (bw * .72 / n);
+        const r = el('rect', { x, y: Y(v), width: bw * .72 / n - 2, height: Y(0) - Y(v), rx: 3, fill: se.cor }, s);
+        el('title', {}, r).textContent = `${rotulos[i]} — ${se.nome}: ${br(v)} kWh`;
+      });
+    } else {
+      const pts = se.v.map((v, i) => `${x0 + (i / (rotulos.length - 1)) * w},${Y(v)}`).join(' ');
+      if (se.area) el('polygon', { points: `${x0},${Y(0)} ${pts} ${x0 + w},${Y(0)}`, fill: se.cor, opacity: .25 }, s);
+      el('polyline', { points: pts, fill: 'none', stroke: se.cor, 'stroke-width': se.esp || 2 }, s);
+    }
+  });
+  if (opt.limite) {
+    el('line', { x1: x0, x2: x0 + w, y1: Y(opt.limite), y2: Y(opt.limite), stroke: '#e03131', 'stroke-dasharray': '5 4' }, s);
+  }
+}
+
+/* --- seções --- */
+function seletor() {
+  const box = document.getElementById('seletor'); box.innerHTML = '';
+  D.alternativas.forEach(a => {
+    const b = document.createElement('button');
+    b.textContent = CURTO[a.chave] + (a.chave === 'a3' ? ' ★' : '');
+    b.className = a.chave === sel ? 'on' : '';
+    b.onclick = () => { sel = a.chave; render(); };
+    box.appendChild(b);
+  });
+}
+function kpis() {
+  const a = A[sel], base = A.atual;
+  const cards = [
+    ['Consumo de energia da UBS', br(a.consumo_kwh_mes), 'kWh/mês', `rede líquida: ${br(a.rede_liquida_kwh_mes)} kWh/mês`],
+    ['Economia energética', br(a.economia_kwh_mes), 'kWh/mês', a.economia_kwh_mes ? `<b>−${br(a.economia_pct, 1)}%</b> da energia da rede` : 'referência'],
+    ['Custo de energia', 'R$ ' + br(a.custo_r_mes), '/mês', a.economia_r_mes ? `<b>−R$ ${br(a.economia_r_mes)}/mês</b> vs. atual` : `atual: R$ ${br(base.custo_r_mes)}`],
+    ['Participação renovável', br(a.participacao_renovavel_pct, 1), '%', a.kwp ? `${br(a.kwp, 2)} kWp · ${br(a.geracao_kwh_mes)} kWh/mês` : 'sem geração própria'],
+    ['Emissões evitadas (CO₂)', br(a.emissoes_evitadas_kgco2_ano), 'kg/ano', `fator ${br(D.premissas.fator_emissao_kgco2_kwh.valor * 1000, 1)} kg/MWh`],
+    ['Retorno do investimento', a.payback_anos ? br(a.payback_anos, 1) : '—', a.payback_anos ? 'anos' : '', a.capex_r ? `investimento R$ ${br(a.capex_r)}` : 'sem investimento'],
+  ];
+  document.getElementById('kpis').innerHTML = cards.map(([r, v, u, d]) =>
+    `<div class="kpi"><div class="rot">${r}</div><div class="val">${v} <small>${u}</small></div><div class="det">${d}</div></div>`).join('');
+}
+function tabelaComp() {
+  const L = [
+    ['Potência solar (kWp)', 'kwp', 2], ['Consumo da UBS (kWh/mês)', 'consumo_kwh_mes', 0], ['Geração solar (kWh/mês)', 'geracao_kwh_mes', 0],
+    ['Energia líquida da rede (kWh/mês)', 'rede_liquida_kwh_mes', 0], ['Economia energética (%)', 'economia_pct', 1],
+    ['Conta de energia (R$/mês)', 'custo_r_mes', 2], ['Redução de custo (R$/mês)', 'economia_r_mes', 2],
+    ['Participação renovável (%)', 'participacao_renovavel_pct', 1], ['Emissões evitadas (kg CO₂/ano)', 'emissoes_evitadas_kgco2_ano', 0],
+    ['Investimento (R$)', 'capex_r', 0], ['Retorno simples (anos)', 'payback_anos', 1], ['Saldo em 25 anos (R$)', 'saldo_25_anos_r', 0]];
+  const alts = D.alternativas;
+  let h = '<tr><th>Indicador</th>' + alts.map(a => `<th class="n"><span class="pill" style="background:${COR[a.chave]}">${CURTO[a.chave]}</span></th>`).join('') + '</tr>';
+  L.forEach(([rot, k, c]) => {
+    h += `<tr><td>${rot}</td>` + alts.map(a => `<td class="n" style="${a.chave === 'a3' ? 'background:#ebfbee;font-weight:700' : ''}">${a[k] ? br(a[k], c) : '—'}</td>`).join('') + '</tr>';
+  });
+  document.getElementById('t_comp').innerHTML = h;
+  const Q = D.qualitativo;
+  let q = '<tr><th>Alternativa</th><th>Viabilidade técnica e condições</th><th>Impactos ambientais</th><th>Benefícios</th><th>Limitações</th></tr>';
+  ['a1', 'a2', 'a3'].forEach(k => {
+    q += `<tr class="${k === 'a3' ? 'rec' : ''}"><td><span class="pill" style="background:${COR[k]}">${CURTO[k]}</span></td>` +
+      ['viabilidade', 'impacto_ambiental', 'beneficios', 'limitacoes'].map(c => `<td>${Q[k][c]}</td>`).join('') + '</tr>';
+  });
+  document.getElementById('t_quali').innerHTML = q;
+}
+function graficosComp() {
+  const itens = k => D.alternativas.map(a => ({ chave: a.chave, rot: CURTO[a.chave], v: a[k], cor: COR[a.chave] }));
+  barras('g_rede', itens('rede_liquida_kwh_mes'), v => br(v), 'kWh/mês');
+  barras('g_custo', itens('custo_r_mes'), v => 'R$ ' + br(v), '/mês');
+}
+function mensal() {
+  const a = A[sel];
+  document.getElementById('mensal_nome').textContent = CURTO[sel];
+  const series = [{ nome: 'Consumo', cor: '#0f2a44', v: a.meses.map(m => m.consumo_kwh) }];
+  if (a.kwp) series.push({ nome: 'Geração', cor: '#f59f00', v: a.meses.map(m => m.geracao_kwh) });
+  linhas('g_mensal', a.meses.map(m => m.mes), series, { barras: true, H: 280, max: escala(Math.max(...A.atual.meses.map(m => m.consumo_kwh))).topo, passo: escala(Math.max(...A.atual.meses.map(m => m.consumo_kwh))).passo });
+}
+function monitor() {
+  const M = D.monitoramento, R = M.resumo;
+  document.getElementById('mon_mes').textContent = R.mes;
+  document.getElementById('kpis_mon').innerHTML = [
+    ['Consumo na semana', br(R.consumo_semana_kwh), 'kWh'], ['Geração solar na semana', br(R.geracao_semana_kwh), 'kWh'],
+    ['Ocorrências detectadas', R.ocorrencias, ''], ['Rede de frio fora de 2 a 8 °C', R.horas_rede_frio_fora, 'h']]
+    .map(([r, v, u]) => `<div class="kpi"><div class="rot">${r}</div><div class="val">${v} <small>${u}</small></div></div>`).join('');
+  const rot = M.serie.map(s => s.hora === 0 ? s.dia : '');
+  const idx = s => ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].indexOf(s.split(' ')[0]) * 24 + parseInt(s.split(' ')[1]);
+  const dest = M.ocorrencias.map(o => [idx(o.inicio), idx(o.fim)]);
+  linhas('g_semana', M.serie.map((s, i) => i % 24 === 0 ? s.dia : ''), [
+    { nome: 'Geração', cor: '#f59f00', v: M.serie.map(s => s.geracao_kw), area: true },
+    { nome: 'Consumo', cor: '#0f2a44', v: M.serie.map(s => s.consumo_kw), esp: 2.2 }],
+    { H: 280, marcasX: 24, destaques: dest, casas: 0 });
+  linhas('g_temp', M.serie.map((s, i) => i % 24 === 0 ? s.dia : ''), [{ nome: 'Temp', cor: '#1c7ed6', v: M.serie.map(s => s.temp_vacina_c) }],
+    { W: 560, H: 240, min: 0, max: 10, passo: 2, faixa: [2, 8], marcasX: 24 });
+  const icone = { 'Consumo': ['#e8590c', 'kW'], 'Rede de frio': ['#e03131', '°C'], 'Solar': ['#f59f00', '☀'] };
+  document.getElementById('alertas').innerHTML = M.ocorrencias.map(o =>
+    `<div class="alerta"><div class="ico" style="background:${icone[o.tipo][0]}">${icone[o.tipo][1]}</div>
+     <div><b>${o.tipo} · ${o.inicio}${o.horas > 1 ? ' → ' + o.fim + ' (' + o.horas + ' h)' : ''}</b><span>${o.mensagem}</span></div></div>`).join('');
+}
+function retorno() {
+  const series = ['a1', 'a2', 'a3'].map(k => ({ nome: k, cor: COR[k], v: [-A[k].capex_r, ...A[k].fluxo.map(f => f.acumulado_r)], esp: k === sel ? 3.5 : 2 }));
+  const max = Math.max(...series.flatMap(s => s.v)), min = Math.min(...series.flatMap(s => s.v));
+  const { passo, topo } = escala(max - min);
+  linhas('g_fluxo', Array.from({ length: 26 }, (_, i) => i % 5 === 0 ? 'ano ' + i : ''), series,
+    { W: 560, H: 300, x0: 92, fmtY: v => 'R$ ' + br(v / 1000) + ' mil', min: Math.floor(min / passo) * passo, max: Math.ceil(max / passo) * passo, passo, marcasX: 5 });
+  let h = '<tr><th>Cenário</th><th class="n">A1</th><th class="n">A2</th><th class="n">A3</th></tr>';
+  D.sensibilidade.forEach(s => h += `<tr><td>${s.cenario}</td><td class="n">${br(s.payback_a1, 1)}</td><td class="n">${br(s.payback_a2, 1)}</td><td class="n">${br(s.payback_a3, 1)}</td></tr>`);
+  document.getElementById('t_sens').innerHTML = h;
+  let m = '<tr><th>Medida</th><th class="n">Investimento</th><th class="n">kWh/mês</th><th class="n">Retorno</th></tr>';
+  D.medidas.forEach(x => m += `<tr><td>${x.medida}</td><td class="n">R$ ${br(x.custo)}</td><td class="n">${br(x.economia_kwh_mes)}</td><td class="n">${x.payback_anos ? br(x.payback_anos, 1) + ' anos' : '—'}</td></tr>`);
+  document.getElementById('t_medidas').innerHTML = m;
+}
+const ROT = { tarifa_r_kwh:'Tarifa de energia', fator_emissao_kgco2_kwh:'Fator de emissão da rede', custo_fv_r_wp:'Custo do sistema solar',
+  taxa_desempenho_pr:'Taxa de desempenho (PR)', modulo_wp:'Potência do módulo', modulo_area_m2:'Área por módulo', area_telhado_util_m2:'Área útil do telhado',
+  cobertura_alvo_fv:'Cobertura-alvo da geração', fio_b_fracao_tarifa:'Peso do Fio B na tarifa', fio_b_nao_compensado:'Fio B não compensado (2026)',
+  custo_disponibilidade_kwh:'Custo de disponibilidade', degradacao_fv_ano:'Degradação dos módulos', om_fv_fracao_capex_ano:'Operação e manutenção',
+  troca_inversor_ano:'Troca do inversor', troca_inversor_fracao_capex:'Custo da troca do inversor', horizonte_anos:'Horizonte de análise',
+  lampada_led_tubular:'Lâmpada LED tubular 18 W', mao_obra_por_lampada:'Mão de obra por lâmpada', refletor_led_50w_com_fotocelula:'Refletor LED 50 W + fotocélula',
+  sensor_presenca_instalado:'Sensor de presença instalado', qtd_sensores_presenca:'Quantidade de sensores', ar_inverter_12k:'Split inverter 12.000 BTU/h',
+  instalacao_ar:'Instalação de split', monitoramento_iot:'Kit de monitoramento IoT' };
+function premissas() {
+  let h = '<tr><th>Premissa</th><th class="n">Valor</th><th>Unidade</th><th>Fonte / justificativa</th></tr>';
+  Object.entries(D.premissas).forEach(([k, p]) => {
+    if (!p || typeof p !== 'object' || !('valor' in p)) return;
+    h += `<tr><td>${ROT[k] || k}</td><td class="n">${br(p.valor, p.valor < 1 ? 3 : 2)}</td><td>${p.unidade || ''}</td><td>${p.fonte}</td></tr>`;
+  });
+  Object.entries(D.premissas.custos_eficiencia).forEach(([k, p]) => {
+    h += `<tr><td>${ROT[k] || k}</td><td class="n">${br(p.valor, k.startsWith('qtd') ? 0 : 2)}</td><td>${k.startsWith('qtd') ? 'unidades' : 'R$'}</td><td>${p.fonte}</td></tr>`;
+  });
+  document.getElementById('t_prem').innerHTML = h;
+}
+function render() {
+  seletor(); kpis(); graficosComp(); mensal(); retorno();
+}
+barrasH('g_equip', D.equipamentos.map(e => ({ rot: e.equipamento.replace(/ \(.*\)/, ''), a: e.kwh_mes_atual, b: e.kwh_mes_eficiente })));
+tabelaComp(); monitor(); premissas(); render();
+</script>
+</body>
+</html>

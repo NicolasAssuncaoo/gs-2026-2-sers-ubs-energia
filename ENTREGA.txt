@@ -1,0 +1,13 @@
+GLOBAL SOLUTION 2026.2 - SERS (Soluções em Energias Renováveis e Sustentáveis)
+Neighborhood Action Dashboard - CitizenTech
+Projeto: UBS Energia Inteligente
+
+Integrantes:
+- Nicolas [SOBRENOME COMPLETO] - RM [NÚMERO]
+- Larissa [SOBRENOME COMPLETO] - RM [NÚMERO]
+
+Repositório no GitHub:
+https://github.com/[USUARIO]/[REPOSITORIO]
+
+Vídeo no YouTube (não listado):
+https://youtu.be/[CODIGO]

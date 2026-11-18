@@ -1,0 +1,5 @@
+alternativa,potencia_fv_kwp,consumo_kwh_mes,geracao_fv_kwh_mes,energia_rede_liquida_kwh_mes,economia_kwh_mes,economia_pct,custo_r_mes,economia_r_mes,participacao_renovavel_pct,emissoes_evitadas_kgco2_ano,investimento_r,payback_anos,saldo_25_anos_r
+Situação atual (referência),0.0,4372.5,0.0,4372.5,0.0,0.0,4416.25,0.0,0.0,0.0,0.0,,0.0
+A1 — Eficiência energética,0.0,2733.1,0.0,2733.1,1639.4,37.5,2760.47,1655.78,0.0,1178.4,34180.0,1.7,462552.95
+A2 — Solar fotovoltaica,33.06,4372.5,3520.3,852.2,3520.3,80.5,1039.92,3376.32,80.5,2530.4,92568.0,2.3,829422.77
+A3 — Eficiência + solar (recomendada),20.88,2733.1,2223.3,509.8,3862.7,88.3,626.03,3790.21,81.3,2776.5,92644.0,2.1,986970.35

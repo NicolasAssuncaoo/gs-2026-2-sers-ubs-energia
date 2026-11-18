@@ -1,0 +1,45 @@
+{
+  "local": "São Paulo (SP) — UBS hipotética de porte médio, funcionamento seg-sex 7h-19h",
+  "tarifa_r_kwh": {
+    "valor": 1.01,
+    "unidade": "R$/kWh com tributos",
+    "fonte": "Fatura B3 Enel SP (abr/2026): TUSD R$ 0,55433 + TE ~R$ 0,375/kWh com tributos (ICMS 18%) = R$ 0,929; reajuste médio de 8,97% na baixa tensão (ANEEL, jul/2026) -> R$ 1,01/kWh."
+  },
+  "fator_emissao_kgco2_kwh": {
+    "valor": 0.0599,
+    "unidade": "kg CO2/kWh",
+    "fonte": "BEN 2025 (ano-base 2024, EPE): 59,9 kg CO2/MWh na geração elétrica. Fatores mensais MCTI 2025 ficaram entre 21,5 e 28,9 kg/MWh (sensibilidade)."
+  },
+  "custo_fv_r_wp": {
+    "valor": 2.80,
+    "unidade": "R$/Wp instalado",
+    "fonte": "Radar Solfácil 3T2025: Sudeste R$ 2,57/Wp; Greener: +7% no 1º sem/2026 para sistemas até 300 kW -> ~R$ 2,75/Wp, arredondado para R$ 2,80/Wp (conservador)."
+  },
+  "taxa_desempenho_pr": {
+    "valor": 0.75,
+    "unidade": "adimensional",
+    "fonte": "USP IEE0004: instalações reais têm PR entre 0,70 e 0,80; adotado 0,75."
+  },
+  "modulo_wp": {"valor": 580, "unidade": "Wp", "fonte": "Módulo monocristalino comercial típico (premissa)."},
+  "modulo_area_m2": {"valor": 2.6, "unidade": "m² por módulo (com espaçamento)", "fonte": "Módulo ~2,28 m x 1,13 m + folga de instalação (premissa)."},
+  "area_telhado_util_m2": {"valor": 250, "unidade": "m²", "fonte": "Premissa: laje/telhado útil voltado ao norte, sem sombreamento."},
+  "cobertura_alvo_fv": {"valor": 0.80, "unidade": "fração do consumo anual", "fonte": "Premissa de projeto: geração anual = 80% do consumo para limitar excedente."},
+  "fio_b_fracao_tarifa": {"valor": 0.30, "unidade": "fração da tarifa final", "fonte": "Premissa (varia por distribuidora). Usada só para valorar a energia injetada."},
+  "fio_b_nao_compensado": {"valor": 0.60, "unidade": "fração", "fonte": "Lei 14.300/2022, art. 27: 60% do Fio B não compensado em 2026."},
+  "custo_disponibilidade_kwh": {"valor": 100, "unidade": "kWh/mês", "fonte": "Ligação trifásica: mínimo faturável de 100 kWh (regra de custo de disponibilidade da ANEEL)."},
+  "degradacao_fv_ano": {"valor": 0.005, "unidade": "fração/ano", "fonte": "Premissa usual de garantia de módulos (0,5%/ano)."},
+  "om_fv_fracao_capex_ano": {"valor": 0.01, "unidade": "fração do investimento/ano", "fonte": "Premissa: limpeza e manutenção preventiva."},
+  "troca_inversor_ano": {"valor": 12, "unidade": "ano", "fonte": "Premissa: vida útil típica de inversor."},
+  "troca_inversor_fracao_capex": {"valor": 0.10, "unidade": "fração do investimento", "fonte": "Premissa."},
+  "horizonte_anos": {"valor": 25, "unidade": "anos", "fonte": "Vida útil usual de módulos FV."},
+  "custos_eficiencia": {
+    "lampada_led_tubular": {"valor": 28.0, "fonte": "Philips CorePro LEDtube 18 W T8: R$ 28,01 (varejo, 2026)."},
+    "mao_obra_por_lampada": {"valor": 12.0, "fonte": "Premissa: retirada do reator e religação."},
+    "refletor_led_50w_com_fotocelula": {"valor": 160.0, "fonte": "Premissa de varejo (refletor LED 50 W + relé fotoelétrico)."},
+    "sensor_presenca_instalado": {"valor": 60.0, "fonte": "Premissa de varejo + instalação."},
+    "qtd_sensores_presenca": {"valor": 30, "fonte": "Premissa: salas, consultórios, banheiros e corredores."},
+    "ar_inverter_12k": {"valor": 2400.0, "fonte": "Split inverter 12.000 BTU/h entre R$ 2.149 e R$ 2.459 em grandes varejistas (2026); adotado R$ 2.400."},
+    "instalacao_ar": {"valor": 700.0, "fonte": "Premissa de mercado para instalação de split."},
+    "monitoramento_iot": {"valor": 1500.0, "fonte": "Premissa: ESP32 + 6 sensores de corrente SCT-013 + sensores de temperatura + relés."}
+  }
+}

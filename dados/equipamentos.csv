@@ -1,0 +1,10 @@
+id,equipamento,categoria,quantidade,potencia_w,horas_dia,dias_mes,potencia_eficiente_w,horas_dia_eficiente,inicio_h,critico,justificativa
+ilum_int,Lâmpada tubular fluorescente T8 40 W + reator (interna),Iluminação,120,44,12,22,18,10.2,7,nao,"40 W da lâmpada + ~4 W de perdas no reator (premissa). LED tubular 18 W substitui a T8 40 W (fichas Philips/B Bauer/Ledvance). Sensor de presença reduz 15% das horas (premissa)."
+ilum_ext,Refletor externo 100 W (fachada e estacionamento),Iluminação,8,100,12,30,50,11,18,nao,"Refletor convencional 100 W trocado por LED 50 W com fotocélula, que reduz ~1 h/noite de acionamento (premissa)."
+ar,Ar-condicionado split convencional 12.000 BTU/h,Climatização,8,1100,8,22,770,7.5,8,nao,"~1.100 W de potência elétrica média em regime; 8 h/dia equivalentes a plena carga dentro do expediente de 12 h (premissa). Inverter: -30% (fontes indicam até 40-41%; adotado valor conservador). Automação desliga salas vazias: 8 h para 7,5 h."
+vacina,Câmara refrigerada de vacinas (rede de frio),Rede de frio,2,150,24,30,150,24,0,sim,"Carga crítica: funciona 24 h e não é alterada pela proposta. Potência média de 150 W por câmara (premissa)."
+ti,Computador + monitor (recepção e consultórios),TI,15,120,10,22,120,9,8,nao,"Desligamento automático ao fim do expediente reduz 1 h/dia de uso ocioso (premissa)."
+autoclave,Autoclave de esterilização,Equipamentos de saúde,1,2500,2,22,2500,2,9,nao,"Uso de 2 h por dia útil (premissa). Sem alteração."
+odonto,Equipo odontológico + compressor,Equipamentos de saúde,1,1200,5,22,1200,5,8,nao,"Uso de 5 h por dia útil (premissa). Sem alteração."
+copa,Geladeira e bebedouros (copa),Copa,3,80,24,30,80,24,0,nao,"Potência média de 80 W cada, 24 h (premissa). Sem alteração."
+outros,Outros (impressoras / nebulizadores / rede),Outros,1,400,12,22,400,12,7,nao,"Carga agregada de pequenos equipamentos (premissa). Sem alteração."

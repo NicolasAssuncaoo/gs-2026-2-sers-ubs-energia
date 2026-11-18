@@ -1,0 +1,13 @@
+mes,dias,irradiacao_kwh_m2_dia,fator_climatizacao
+Jan,31,4.8,1.35
+Fev,28,4.7,1.35
+Mar,31,4.9,1.20
+Abr,30,4.6,0.95
+Mai,31,4.4,0.70
+Jun,30,4.2,0.55
+Jul,31,4.7,0.55
+Ago,31,4.9,0.65
+Set,30,4.4,0.85
+Out,31,4.6,1.05
+Nov,30,5.0,1.20
+Dez,31,4.8,1.35

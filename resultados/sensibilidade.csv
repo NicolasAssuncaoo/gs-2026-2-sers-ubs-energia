@@ -1,0 +1,8 @@
+cenario,payback_a1,payback_a2,payback_a3
+Cenário base,1.72,2.35,2.07
+Tarifa -20%,2.15,2.95,2.59
+Tarifa +20%,1.43,1.95,1.72
+Custo FV -20%,1.72,1.87,1.8
+Custo FV +20%,1.72,2.83,2.33
+"PR 0,70",1.72,2.52,2.16
+"PR 0,80",1.72,2.2,1.98
