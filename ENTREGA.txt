@@ -3,11 +3,11 @@ Neighborhood Action Dashboard - CitizenTech
 Projeto: UBS Energia Inteligente
 
 Integrantes:
-- Nicolas [SOBRENOME COMPLETO] - RM [NÚMERO]
-- Larissa [SOBRENOME COMPLETO] - RM [NÚMERO]
+- Nicolas Santos Assunção - RM 575154
+- Larissa Fernandes - RM 574592
 
 Repositório no GitHub:
-https://github.com/[USUARIO]/[REPOSITORIO]
+https://github.com/NicolasAssuncaoo/gs-2026-2-sers-ubs-energia
 
 Vídeo no YouTube (não listado):
-https://youtu.be/[CODIGO]
+[LINK DO VÍDEO]
